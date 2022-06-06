@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-void getNames(int n, char arr[][10]);
-void getGrades(int numStudent, int numAssign, int arar1[][numStudent], char arr[][10]);
+void getNames(int n, FILE *inGrades, char arr[][10]);
+void getGrades(int numStudent, int numAssign, FILE *inGrades, int arar1[][numStudent], char arr[][10]);
 void average(int numAssign, int numStudent, int arr4[numAssign][numStudent], char sumArr[numStudent]);
 void finalGrades(int numStudent, int numAssign,int grades[][numStudent], char names[][10]);
 
@@ -29,22 +29,20 @@ int main() {
 	
 	char names[numStudent][10];
 	
-	puts("");
-	
 	//printf("%s", "How many assignments? ");
 	fscanf(inGrades, "%d", &numAssign);
 	
+	if (inGrades == NULL) {
+		
+		printf("The file could not be opened.\n");
+		
+	}
+	
 	int grade[numAssign][numStudent];
 	
-	puts("");
+	getNames(numStudent, inGrades, names); 
 	
-	getNames(numStudent, names); 
-	
-	puts("");
-	
-	getGrades(numStudent, numAssign, grade, names);
-	
-	puts("");
+	getGrades(numStudent, numAssign, inGrades, grade, names);
 	
 	finalGrades(numStudent, numAssign, grade, names);
 	
@@ -54,23 +52,23 @@ int main() {
 	
 }
 
-void getNames(int numStudent, char arr[numStudent][10]) {
+void getNames(int numStudent, FILE *inGrades, char arr[numStudent][10]) {
 	
 	int i;
-	FILE *inGrades;
 	
 	for (i = 0; i < numStudent; i++) {
 		//printf("Enter the name for Student %d: ", i);
-		fscanf(inGrades, "%s", arr[i]);
+		fscanf(inGrades, "%s", &arr[i]);
+		
 	}
 	
 }
 
-void getGrades(int numStudent, int numAssign, int arr1[numAssign][numStudent], char arr2[numStudent][10]) {
+void getGrades(int numStudent, int numAssign, FILE *inGrades, int arr1[numAssign][numStudent], char arr2[numStudent][10]) {
 	
 	int i;
 	int j;
-	FILE *inGrades;
+	
 	
 	for (i = 0; i < numAssign; i++) {
 		
@@ -78,6 +76,7 @@ void getGrades(int numStudent, int numAssign, int arr1[numAssign][numStudent], c
 			
 			//printf("Enter grade for Assignment %d for %s: ", i, arr2[j]);
 			fscanf(inGrades, "%d", &arr1[i][j]);
+			
 			
 		}
 	}
