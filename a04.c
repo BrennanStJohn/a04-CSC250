@@ -1,16 +1,23 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void getNames(int n, FILE *inGrades, char arr[][10]);
 void getGrades(int numStudent, int numAssign, FILE *inGrades, int arar1[][numStudent], char arr[][10]);
 void average(int numAssign, int numStudent, int arr4[numAssign][numStudent], char sumArr[numStudent]);
 void finalGrades(int numStudent, int numAssign,int grades[][numStudent], char names[][10]);
 
-int main() {
+int main(int argc, char *argv[]) {
 
+	if (argc != 2) {
+		
+		printf("\n\tUsage: '%s filename'\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	
 	FILE *inGrades;
 	
-	inGrades = fopen("grades.txt", "r");
+	inGrades = fopen(argv[1], "r");
 
 	int numStudent = 0;
 	int numAssign = 0;
@@ -35,7 +42,7 @@ int main() {
 	if (inGrades == NULL) {
 		
 		printf("The file could not be opened.\n");
-		
+		exit(EXIT_FAILURE);
 	}
 	
 	int grade[numAssign][numStudent];
@@ -49,6 +56,8 @@ int main() {
 	char sumArr[numStudent];
 	
 	average(numAssign, numStudent, grade, sumArr);
+	
+	fclose(inGrades);
 	
 }
 
